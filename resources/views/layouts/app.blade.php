@@ -30,6 +30,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{ __('Home') }}</a>
+                        </li>
+                        @yield('nav')
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -74,6 +78,7 @@
         <main class="py-4">
             @yield('content')
         </main>
+
     </div>
 </body>
 </html>

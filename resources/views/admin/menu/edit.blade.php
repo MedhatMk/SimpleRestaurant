@@ -4,7 +4,7 @@
 <!-- Include SweetAlert2 -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <a href="{{route('admin.home')}}" style="margin-left: 3em" class="btn btn-dark">Back</a>
+    <a href="{{route('item.index')}}" style="margin-left: 3em" class="btn btn-dark">Back</a>
 
  <form  method="POST" action="{{(isset($item))?route('item.update',['id' => $item->id]):route('item.store')}}"   style="padding: 3em">
      @csrf
@@ -37,7 +37,6 @@
           <span class="input-group-text">0.00</span>
     </div>
       </div>    <button type="submit" class="btn btn-success">Submit</button>
-    </div>
 
   </fieldset>
 </form>

@@ -23,72 +23,64 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(){
+    public function Adhome(){
         return view('home');
     }
 
-    public function adminHome(){
-        $menu = Item::all();
-        return view('admin.home', ['menu'=>$menu]);
+    public function index(){
+        $cats = Category::all();
+        return view('admin.category.index', ['cats'=>$cats]);
     }
 
 
     public function create(){
-        $categories = Category::all();
-        return view('admin.edite', ['categories'=>$categories]);
+        return view('admin.category.edit');
     }
     function store()
     {
         $data = request()->all();
-        $item = new Item([
+        $item = new Category([
             'name'=>$data['name'],
-            'description'=>$data['description'],
-            'price'=>$data['price'],
-            'category_id'=>$data['category_id'],
-
         ]);
         $item->save();
-        session()->flash('success', 'Item stored successfully!');
-        return redirect('/admin/home',);
+        session()->flash('success', 'Category stored successfully!');
+        return redirect('/admin/categories',);
     }
     function edit($id)
     {
-        $item = Item::with('category')->find($id);
-        $categories = Category::all();
+        $item = Category::find($id);
         if ($item){
-            return view('admin.edite', ['item'=>$item, 'categories'=>$categories]);
+            return view('admin.category.edit', ['item'=>$item]);
         }
 
-        return  session()->flash('success', 'Item Not found!');
+        return  session()->flash('success', 'Category Not found!');
     }
     function update($id)
     {
         $data = request()->all();
-        $item = Item::find($id);
+        $item = Category::find($id);
         if ($item){
              $item->update([
             'name'=>$data['name'],
-            'description'=>$data['description'],
-            'price'=>$data['price'],
-            'category_id'=>$data['category_id'],
 
         ]);
         $item->save();
-        session()->flash('success', 'Item updated successfully!');
-            return redirect('/admin/home');
+        session()->flash('success', 'Category updated successfully!');
+            return redirect('/admin/categories');
         }
 
-        return response()->json(['message'=>['Item Not found']]);
+        return response()->json(['message'=>['Category Not found']]);
     }
         function destroy($id)
     {
-        $item = Item::with('category')->find($id);
+        $item = Category::find($id);
         if ($item){
             $item->delete();
-            session()->flash('success', 'Item Deleted successfully!');
-            return redirect('/admin/home');
+            session()->flash('success', 'Category Deleted successfully!');
+            return redirect('/admin/categories');
         }
-        return response()->json(['message'=>['Item Not found']]);
+        return response()->json(['message'=>['Category Not found']]);
         }
+
 
 }

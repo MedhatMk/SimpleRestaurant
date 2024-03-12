@@ -23,15 +23,27 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(){
+    public function adminHome(){
         return view('home');
     }
 
-    public function adminHome(){
-        $menu = Item::all();
-        return view('admin.menu.index', ['menu'=>$menu]);
-    }
+//    public function index(Request $request){
+//        $menu = Item::sortable()->paginate(1);
+//         $cats = Category::all();
+//        return view('admin.menu.index', ['menu'=>$menu , 'cats'=>$cats]);
+//    }
 
+    public function filterByCategory(Request $request)
+    {
+
+        $category  = $request->query('category','');
+        $items = Item::when($category, function ($query, $category){
+            return $query->where('category_id',$category);
+        })->sortable()->paginate(2);
+         $cats = Category::all();
+        return view('admin.menu.index',['menu'=>$items,'cats'=>$cats]);
+
+    }
 
     public function create(){
         $categories = Category::all();
@@ -49,16 +61,14 @@ class MenuController extends Controller
         ]);
         $item->save();
         session()->flash('success', 'Item stored successfully!');
-        return redirect('/admin/home',);
+        return redirect('/admin/items',);
     }
     function edit($id)
     {
         $item = Item::with('category')->find($id);
-        $categories = Category::all();
         if ($item){
-            return view('admin.menu.edit', ['item'=>$item, 'categories'=>$categories]);
+            return view('admin.menu.edit', ['item'=>$item, 'categories'=>Category::all()]);
         }
-
         return  session()->flash('success', 'Item Not found!');
     }
     function update($id)
@@ -75,7 +85,7 @@ class MenuController extends Controller
         ]);
         $item->save();
         session()->flash('success', 'Item updated successfully!');
-            return redirect('/admin/home');
+            return redirect('/admin/items');
         }
 
         return response()->json(['message'=>['Item Not found']]);
@@ -86,7 +96,7 @@ class MenuController extends Controller
         if ($item){
             $item->delete();
             session()->flash('success', 'Item Deleted successfully!');
-            return redirect('/admin/home');
+            return redirect('/admin/items');
         }
         return response()->json(['message'=>['Item Not found']]);
         }

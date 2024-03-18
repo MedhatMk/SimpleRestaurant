@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected string $redirectTo = '/home';
+    protected string $redirectTo = '/admin/items';
 
     /**
      * Create a new controller instance.
@@ -52,8 +52,8 @@ class LoginController extends Controller
         }
 
         if (auth()->user()->type == 1) {
-            return redirect()->route('admin.home');
+            return redirect()->route('item.index');
         }
-        return redirect()->route('home');
+        return redirect()->route('login');
     }
 }

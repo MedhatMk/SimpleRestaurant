@@ -15,23 +15,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
-
-
-
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\MenuController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\MenuController::class, 'index'])->name('home');
 /*------------------------------------------
 All Normal Users Routes List
 --------------------------------------------*/
-Route::middleware(['auth', 'user-access:stuff'])->group(function () {
-Route::get('/home', [MenuController::class, 'index'])->name('home');
-});
+//Route::middleware(['auth', 'user-access:stuff'])->group(function () {
+//Route::get('/home', [MenuController::class, 'index'])->name('home');
+//});
 /*------------------------------------------
 All Admin Routes List
 --------------------------------------------*/
